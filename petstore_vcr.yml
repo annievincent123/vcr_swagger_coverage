@@ -1,0 +1,139 @@
+---
+version: 1
+interactions:
+  # Pet Operations
+  - request:
+      method: POST
+      uri: https://petstore.swagger.io/v2/pet
+      body:
+        name: "doggie"
+        photoUrls: ["http://example.com/photo.jpg"]
+        status: "available"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer {petstore_auth}"
+    response:
+      status: 200
+      body:
+        id: 12345
+        name: "doggie"
+        photoUrls: ["http://example.com/photo.jpg"]
+        status: "available"
+      headers:
+        Content-Type: "application/json"
+
+  - request:
+      method: GET
+      uri: https://petstore.swagger.io/v2/pet/findByStatus
+      query:
+        status: ["available"]
+      headers:
+        Authorization: "Bearer {petstore_auth}"
+    response:
+      status: 200
+      body:
+        - id: 12345
+          name: "doggie"
+          status: "available"
+      headers:
+        Content-Type: "application/json"
+
+  - request:
+      method: GET
+      uri: https://petstore.swagger.io/v2/pet/12345
+      headers:
+        api_key: "{api_key}"
+    response:
+      status: 200
+      body:
+        id: 12345
+        name: "doggie"
+        status: "available"
+      headers:
+        Content-Type: "application/json"
+
+  # Store Operations
+  - request:
+      method: POST
+      uri: https://petstore.swagger.io/v2/store/order
+      body:
+        petId: 12345
+        quantity: 1
+        shipDate: "2025-02-22T12:00:00Z"
+        status: "placed"
+      headers:
+        Content-Type: "application/json"
+    response:
+      status: 200
+      body:
+        id: 67890
+        petId: 12345
+        quantity: 1
+        shipDate: "2025-02-22T12:00:00Z"
+        status: "placed"
+        complete: false
+      headers:
+        Content-Type: "application/json"
+
+  - request:
+      method: GET
+      uri: https://petstore.swagger.io/v2/store/inventory
+      headers:
+        api_key: "{api_key}"
+    response:
+      status: 200
+      body:
+        available: 50
+        pending: 10
+        sold: 20
+      headers:
+        Content-Type: "application/json"
+
+  # User Operations
+  - request:
+      method: POST
+      uri: https://petstore.swagger.io/v2/user
+      body:
+        username: "testuser"
+        firstName: "Test"
+        lastName: "User"
+        email: "test@example.com"
+        password: "password123"
+        phone: "1234567890"
+      headers:
+        Content-Type: "application/json"
+    response:
+      status: 200
+      body:
+        message: "ok"
+      headers:
+        Content-Type: "application/json"
+
+  - request:
+      method: GET
+      uri: https://petstore.swagger.io/v2/user/login
+      query:
+        username: "testuser"
+        password: "password123"
+    response:
+      status: 200
+      body: "logged in user session:1234"
+      headers:
+        Content-Type: "application/json"
+        X-Rate-Limit: "5000"
+        X-Expires-After: "2025-02-22T13:00:00Z"
+
+  - request:
+      method: GET
+      uri: https://petstore.swagger.io/v2/user/testuser
+    response:
+      status: 200
+      body:
+        id: 54321
+        username: "testuser"
+        firstName: "Test"
+        lastName: "User"
+        email: "test@example.com"
+        phone: "1234567890"
+      headers:
+        Content-Type: "application/json"
